@@ -1,0 +1,607 @@
+/* ══════════════════════════════════════════════
+   Burger Master Planner — Design System
+   ══════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ─── Tokens ─── */
+:root {
+  --bg:           #0b0b10;
+  --surface:      #14141e;
+  --surface-2:    #1c1c2a;
+  --surface-3:    #252536;
+  --border:       rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --accent:       #f59e0b;
+  --accent-dim:   rgba(245,158,11,0.15);
+  --accent-2:     #10b981;
+  --accent-2-dim: rgba(16,185,129,0.15);
+  --text:         #f0f0f5;
+  --text-2:       #8888a0;
+  --text-3:       #55556a;
+  --danger:       #ef4444;
+  --radius:       10px;
+  --radius-sm:    6px;
+  --radius-lg:    16px;
+  --glass:        rgba(20,20,30,0.75);
+  --glass-border: rgba(255,255,255,0.08);
+  --shadow:       0 8px 32px rgba(0,0,0,0.4);
+  --transition:   0.2s ease;
+
+  /* Category colors */
+  --cat-pan:        #d97706;
+  --cat-proteina:   #dc2626;
+  --cat-queso:      #eab308;
+  --cat-salsa:      #e11d48;
+  --cat-topping:    #8b5cf6;
+  --cat-condimento: #06b6d4;
+  --cat-vegetal:    #22c55e;
+  --cat-otro:       #6b7280;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ─── Navigation ─── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-brand span { font-size: 22px; }
+
+.nav-link {
+  padding: 8px 18px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-2);
+  transition: all var(--transition);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface-2);
+  text-decoration: none;
+}
+
+.nav-link.active {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* ─── Page Layout ─── */
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  color: var(--text-2);
+  font-size: 14px;
+}
+
+/* ─── Cards ─── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all var(--transition);
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+/* ─── Ingredient Chips ─── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1px solid transparent;
+  user-select: none;
+}
+
+.chip--active {
+  opacity: 1;
+}
+
+.chip--excluded {
+  opacity: 0.35;
+  text-decoration: line-through;
+  border-color: var(--danger);
+}
+
+.chip-pan        { background: rgba(217,119,6,0.15);  color: var(--cat-pan); }
+.chip-proteina   { background: rgba(220,38,38,0.15);  color: var(--cat-proteina); }
+.chip-queso      { background: rgba(234,179,8,0.15);  color: var(--cat-queso); }
+.chip-salsa      { background: rgba(225,29,72,0.15);  color: var(--cat-salsa); }
+.chip-topping    { background: rgba(139,92,246,0.15); color: var(--cat-topping); }
+.chip-condimento { background: rgba(6,182,212,0.15);  color: var(--cat-condimento); }
+.chip-vegetal    { background: rgba(34,197,94,0.15);  color: var(--cat-vegetal); }
+.chip-otro       { background: rgba(107,114,128,0.15);color: var(--cat-otro); }
+
+/* ─── Filter Sections ─── */
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+}
+
+.filter-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.filter-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-2);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-category {
+  margin-bottom: 16px;
+}
+
+.filter-category-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-3);
+  margin-bottom: 8px;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ─── City Checkboxes ─── */
+.city-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition);
+  font-size: 14px;
+}
+
+.city-item:hover { background: var(--surface-2); }
+
+.city-item input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--text-3);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+
+.city-item input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.city-item input[type="checkbox"]:checked::after {
+  content: '✕';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  color: #000;
+  font-weight: 700;
+}
+
+.city-item--excluded label { color: var(--text-3); text-decoration: line-through; }
+.city-count { margin-left: auto; color: var(--text-3); font-size: 12px; }
+
+/* ─── Bottom Bar ─── */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  padding: 14px 24px;
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.bottom-bar .count {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.bottom-bar .count em {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 800;
+}
+
+/* ─── Buttons ─── */
+.btn {
+  padding: 8px 18px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  transition: all var(--transition);
+}
+
+.btn:hover { background: var(--surface-3); border-color: var(--border-hover); }
+
+.btn--accent {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+.btn--accent:hover { background: #d97706; }
+
+.btn--danger {
+  background: transparent;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.btn--danger:hover { background: rgba(239,68,68,0.1); }
+
+/* ─── Burger Cards Grid ─── */
+.burger-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  padding-bottom: 80px;
+}
+
+.burger-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.burger-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow);
+  transform: translateY(-2px);
+}
+
+.burger-card__restaurant {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.burger-card__name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.burger-card__ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.burger-card__locations {
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+.burger-card__city {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--accent-2-dim);
+  color: var(--accent-2);
+  margin-top: 8px;
+}
+
+.burger-card__desc {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+  display: none;
+}
+
+.burger-card.expanded .burger-card__desc { display: block; }
+
+/* ─── Search ─── */
+.search-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color var(--transition);
+}
+
+.search-input::placeholder { color: var(--text-3); }
+.search-input:focus { outline: none; border-color: var(--accent); }
+
+/* ─── Map Page ─── */
+.map-layout {
+  display: flex;
+  height: calc(100vh - 57px);
+}
+
+.map-controls {
+  width: 300px;
+  flex-shrink: 0;
+  padding: 20px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.map-container {
+  flex: 1;
+  position: relative;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control-value {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-3);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+}
+
+/* Toggle Switch */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.toggle-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.toggle input { display: none; }
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: var(--surface-3);
+  transition: background var(--transition);
+}
+
+.toggle input:checked + .toggle-track {
+  background: var(--accent);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text);
+  transition: transform var(--transition);
+  pointer-events: none;
+}
+
+.toggle input:checked ~ .toggle-thumb {
+  transform: translateX(20px);
+}
+
+/* ─── Map Legend ─── */
+.legend {
+  padding: 16px 20px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.legend-item:hover {
+  border-color: var(--danger);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-empty {
+  color: var(--text-3);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* ─── Map Info Panel ─── */
+.map-stats {
+  padding: 12px;
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.8;
+}
+
+.map-stats strong { color: var(--text); }
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .filter-grid { grid-template-columns: 1fr; }
+  .burger-grid { grid-template-columns: 1fr; }
+  .map-controls { width: 240px; padding: 14px; }
+}
+
+@media (max-width: 600px) {
+  .nav { padding: 10px 14px; gap: 4px; }
+  .nav-link { padding: 6px 10px; font-size: 11px; }
+  .page { padding: 16px 14px; }
+  .map-layout { flex-direction: column; }
+  .map-controls { width: 100%; height: auto; max-height: 200px; flex-direction: row; flex-wrap: wrap; border-right: none; border-bottom: 1px solid var(--border); }
+  .map-container { height: 50vh; }
+}

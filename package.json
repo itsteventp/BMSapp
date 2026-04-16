@@ -1,0 +1,25 @@
+{
+  "name": "burger-master-scraper",
+  "version": "2.0.0",
+  "description": "Scrape, classify, geocode and upload Burger Master festival data to Supabase",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "scrape": "node src/index.js --only-scrape",
+    "classify": "node src/index.js --only-classify",
+    "geocode": "node src/index.js --only-geocode",
+    "upload": "node src/index.js --only-upload",
+    "pipeline": "node src/index.js",
+    "pipeline:fresh": "node src/index.js --clear-cache"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0",
+    "@googlemaps/google-maps-services-js": "^3.4.2",
+    "@supabase/supabase-js": "^2.49.0",
+    "axios": "^1.7.0",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.0",
+    "postgres": "^3.4.9",
+    "uuid": "^11.1.0"
+  }
+}

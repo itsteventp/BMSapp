@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa — Burger Master Planner</title>
+  <meta name="description" content="Mapa interactivo del Burger Master 2026 con rutas y conexiones a pie.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Google Maps custom styling */
+    .map-container { position: relative; }
+    #map { height: 100%; width: 100%; }
+    
+    /* InfoWindow styling to match theme */
+    .gm-style .gm-style-iw-c {
+      background: var(--surface) !important;
+      padding: 0 !important;
+      border-radius: var(--radius) !important;
+    }
+    .gm-style .gm-style-iw-t::after {
+      background: var(--surface) !important;
+    }
+    .gm-style .gm-style-iw-d {
+      padding: 12px 14px !important;
+      color: var(--text) !important;
+      font-family: 'Inter', sans-serif !important;
+      overflow: hidden !important;
+    }
+    .gm-style .gm-style-iw-d strong { color: var(--accent); }
+    .gm-ui-hover-effect { display: none !important; } /* Hide default close btn */
+  </style>
+</head>
+<body>
+  <div id="nav"></div>
+
+  <div class="map-layout">
+    <div class="map-controls">
+      <div style="font-size:18px;font-weight:800;">🗺️ Controles</div>
+
+      <div class="control-group">
+        <div class="control-label">Distancia a pie <span class="control-value" id="dist-val">800m</span></div>
+        <input type="range" id="distance" min="200" max="2000" step="100" value="800">
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">Max conexiones <span class="control-value" id="conn-val">2</span></div>
+        <input type="range" id="max-conn" min="1" max="6" step="1" value="2">
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">Max cadena <span class="control-value" id="chain-val">3</span></div>
+        <input type="range" id="max-chain" min="2" max="10" step="1" value="3">
+      </div>
+
+      <div class="toggle-row">
+        <span class="toggle-label">Sin repetición</span>
+        <label class="toggle">
+          <input type="checkbox" id="no-repeat">
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+      </div>
+
+      <div class="map-stats" id="stats">Cargando…</div>
+
+      <button class="btn btn--danger" id="clear-selection" style="width:100%">Limpiar Selección</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;flex:1;">
+      <div class="map-container">
+        <div id="map"></div>
+      </div>
+      <div class="legend" id="legend">
+        <span class="legend-empty">Haz clic en una línea del mapa para seleccionar una cadena.</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { getConfig } from './js/data.js';
+    async function initLoader() {
+      const config = await getConfig();
+      const apiKey = config.GOOGLE_MAPS_API_KEY;
+      
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&v=weekly`;
+      script.async = true;
+      document.head.appendChild(script);
+    }
+    initLoader();
+  </script>
+  <script type="module" src="js/map.js"></script>
+</body>
+</html>

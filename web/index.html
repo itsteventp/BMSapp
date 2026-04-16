@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filtros — Burger Master Planner</title>
+  <meta name="description" content="Filtra los ingredientes y ciudades para planear tu ruta por el Burger Master 2026.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="nav"></div>
+
+  <div class="page" style="padding-bottom: 80px;">
+    <div class="page-header">
+      <h1 class="page-title">🧂 Filtros</h1>
+      <p class="page-subtitle">Excluye ingredientes o ciudades que no te interesen. Los resultados se aplican en Burgers y Mapa.</p>
+    </div>
+
+    <div class="filter-grid">
+      <div class="filter-section">
+        <div class="filter-section-title">🥩 Ingredientes <span id="ing-count" style="margin-left:auto;font-size:11px;color:var(--text-3)"></span></div>
+        <div id="ingredients-container"></div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-section-title">📍 Ciudades</div>
+        <div id="cities-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="count"><em id="remaining">0</em> burgers disponibles de <span id="total">0</span></div>
+    <button class="btn btn--danger" id="clear-btn">Limpiar Filtros</button>
+  </div>
+
+  <script type="module" src="js/filters.js"></script>
+</body>
+</html>
