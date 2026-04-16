@@ -76,19 +76,6 @@
     </div>
   </div>
 
-  <script type="module">
-    import { getConfig } from './js/data.js';
-    async function initLoader() {
-      const config = await getConfig();
-      const apiKey = config.GOOGLE_MAPS_API_KEY;
-      
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&v=weekly`;
-      script.async = true;
-      document.head.appendChild(script);
-    }
-    initLoader();
-  </script>
   <script type="module" src="js/map.js"></script>
 </body>
 </html>

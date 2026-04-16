@@ -11,44 +11,43 @@ export async function getConfig() {
   return _config;
 }
 
-const SUPABASE_URL = 'https://jclxaletgxrjxkrgrrnp.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjbHhhbGV0Z3hyanhrcmdycm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODQ4NTYsImV4cCI6MjA5MTg2MDg1Nn0.7-h29Du4DgLZ7DBr5XoZSFP8E1s-jMUdw4BC5IkqniU';
-
-const REST_HEADERS = {
-  'apikey': SUPABASE_ANON_KEY,
-  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-  'Content-Type': 'application/json',
-};
-
-let _rawData = null;
-
-/**
- * Fetch all rows from a Supabase table via REST API.
- * Handles pagination automatically (Supabase limits to 1000 rows per request).
- */
-async function fetchTable(table) {
-  const allRows = [];
-  let offset = 0;
-  const limit = 1000;
-
-  while (true) {
-    const url = `${SUPABASE_URL}/rest/v1/${table}?select=*&offset=${offset}&limit=${limit}`;
-    const resp = await fetch(url, { headers: REST_HEADERS });
-    if (!resp.ok) throw new Error(`Failed to fetch ${table}: ${resp.status}`);
-    const rows = await resp.json();
-    allRows.push(...rows);
-    if (rows.length < limit) break;
-    offset += limit;
-  }
-
-  return allRows;
-}
+// Fallbacks for local development if config.json is missing
+const DEFAULT_SUPABASE_URL = 'https://jclxaletgxrjxkrgrrnp.supabase.co';
+const DEFAULT_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjbHhhbGV0Z3hyanhrcmdycm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODQ4NTYsImV4cCI6MjA5MTg2MDg1Nn0.7-h29Du4DgLZ7DBr5XoZSFP8E1s-jMUdw4BC5IkqniU';
 
 /** Load the pipeline data from Supabase. Cached after first call. */
 export async function loadData() {
   if (_rawData) return _rawData;
 
+  const config = await getConfig().catch(() => ({}));
+  const supabaseUrl = config.SUPABASE_URL || DEFAULT_SUPABASE_URL;
+  const supabaseKey = config.SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
+
+  const restHeaders = {
+    'apikey': supabaseKey,
+    'Authorization': `Bearer ${supabaseKey}`,
+    'Content-Type': 'application/json',
+  };
+
   console.log('📡 Loading data from Supabase…');
+
+  /** Helper to fetch table with pagination using the resolved config */
+  async function fetchTable(table) {
+    const allRows = [];
+    let offset = 0;
+    const limit = 1000;
+
+    while (true) {
+      const url = `${supabaseUrl}/rest/v1/${table}?select=*&offset=${offset}&limit=${limit}`;
+      const resp = await fetch(url, { headers: restHeaders });
+      if (!resp.ok) throw new Error(`Failed to fetch ${table}: ${resp.status}`);
+      const rows = await resp.json();
+      allRows.push(...rows);
+      if (rows.length < limit) break;
+      offset += limit;
+    }
+    return allRows;
+  }
 
   // Fetch all tables in parallel
   const [burgers, ingredients, burgerIngredients, locations] = await Promise.all([

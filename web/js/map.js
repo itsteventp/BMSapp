@@ -3,7 +3,7 @@
  * Ported to Google Maps JavaScript API for "gold standard" reliability.
  */
 
-import { loadData, renderNav, applyFilters, haversine } from './data.js';
+import { loadData, getConfig, renderNav, applyFilters, haversine } from './data.js';
 
 /* ═══ Chain Colors ═══ */
 const CHAIN_COLORS = [
@@ -64,6 +64,37 @@ async function init() {
 
 // Attach to window for the Google Maps callback
 window.initMap = init;
+
+/**
+ * Dynamically loads the Google Maps JavaScript API script.
+ */
+async function loadGoogleMaps() {
+  try {
+    const config = await getConfig();
+    const apiKey = config.GOOGLE_MAPS_API_KEY;
+
+    if (!apiKey) {
+      console.error('❌ Google Maps API Key missing in config.json');
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&v=weekly`;
+    script.async = true;
+    script.defer = true;
+    
+    script.onerror = () => {
+      console.error('❌ Failed to load Google Maps script. Check your API key or connectivity.');
+    };
+
+    document.head.appendChild(script);
+  } catch (err) {
+    console.error('❌ Error loading configuration or Google Maps script:', err);
+  }
+}
+
+// Start the loading process
+loadGoogleMaps();
 
 function bindControls() {
   const distSlider = document.getElementById('distance');
