@@ -45,21 +45,26 @@ let initialFitDone = false;
 let infoWindow;
 
 async function init() {
-  document.getElementById('nav').innerHTML = renderNav('map');
-  data = await loadData();
-  infoWindow = new google.maps.InfoWindow();
+  try {
+    document.getElementById('nav').innerHTML = renderNav('map');
+    data = await loadData();
+    infoWindow = new google.maps.InfoWindow();
 
-  // Create Map centered on Bogotá
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 4.65, lng: -74.08 },
-    zoom: 12,
-    styles: DARK_MAP_STYLE,
-    disableDefaultUI: false,
-    zoomControl: true,
-  });
+    // Create Map centered on Bogotá
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 4.65, lng: -74.08 },
+      zoom: 12,
+      styles: DARK_MAP_STYLE,
+      disableDefaultUI: false,
+      zoomControl: true,
+    });
 
-  bindControls();
-  rebuildGraph();
+    bindControls();
+    rebuildGraph();
+  } catch (err) {
+    console.error('❌ Error during initMap:', err);
+    document.getElementById('stats').innerHTML = `<span style="color:var(--danger)">Error: ${err.message}</span>`;
+  }
 }
 
 // Attach to window for the Google Maps callback

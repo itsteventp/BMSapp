@@ -6,14 +6,22 @@
 let _config = null;
 export async function getConfig() {
   if (_config) return _config;
-  const resp = await fetch('config.json');
-  _config = await resp.json();
-  return _config;
+  try {
+    const resp = await fetch('config.json');
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    _config = await resp.json();
+    return _config;
+  } catch (err) {
+    console.error('❌ Failed to load config.json:', err);
+    return {};
+  }
 }
 
 // Fallbacks for local development if config.json is missing
 const DEFAULT_SUPABASE_URL = 'https://jclxaletgxrjxkrgrrnp.supabase.co';
 const DEFAULT_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpjbHhhbGV0Z3hyanhrcmdycm5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyODQ4NTYsImV4cCI6MjA5MTg2MDg1Nn0.7-h29Du4DgLZ7DBr5XoZSFP8E1s-jMUdw4BC5IkqniU';
+
+let _rawData = null;
 
 /** Load the pipeline data from Supabase. Cached after first call. */
 export async function loadData() {
